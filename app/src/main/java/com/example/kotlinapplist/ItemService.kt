@@ -4,6 +4,7 @@ import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
+import com.example.kotlinapplist.data.Consts
 
 class ItemService : Service() {
 
@@ -34,8 +35,8 @@ class ItemService : Service() {
         startForeground(Consts.notificationID, notification.build())
     }
     private fun getBroadcastIntent(): Intent {
-        return Intent("${BuildConfig.APPLICATION_ID}.${Consts.ACTION_NOTIF_CLICKED}").apply {
-            setPackage(BuildConfig.APPLICATION_ID)
+        return Intent("${Consts.APP_PACKAGE}.${Consts.ACTION_NOTIF_CLICKED}").apply {
+            setPackage(Consts.APP_PACKAGE)
         }
     }
 }

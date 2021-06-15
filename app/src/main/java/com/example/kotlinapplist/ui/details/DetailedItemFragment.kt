@@ -1,48 +1,46 @@
-package com.example.kotlinapplist
+package com.example.kotlinapplist.ui.details
 
-import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
-import android.preference.PreferenceCategory
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import com.example.kotlinapplist.data.Consts
+import com.example.kotlinapplist.data.Item
 import com.example.kotlinapplist.databinding.FragmentDetailedItemBinding
+import com.example.kotlinapplist.repo.implementation.ItemRepositoryImpl
+import com.example.kotlinapplist.repo.implementation.PreferencesRepositoryImpl
+import com.example.kotlinapplist.ui.items.ItemsPresenter
+import com.example.kotlinapplist.utils.DiUtil
 
 
-class DetailedItemFragment : Fragment() {
-    private var paramItemId: Int? = null
+class DetailedItemFragment : Fragment(), DetailedItemFragmentView {
     private lateinit var binding: FragmentDetailedItemBinding
-    private val itemData: MutableLiveData<ItemContent.Item> = MutableLiveData()
 
+    private val itemId by lazy {
+        arguments?.getInt(Consts.ARG_PARAM_ITEM_ID) ?: -1
+    }
+    private val presenter by lazy {
+        DetailedItemPresenter()
+        // DiUtil.itemsRepository
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentDetailedItemBinding.inflate(inflater, container, false)
-        arguments?.let {
-            paramItemId = it.getInt(Consts.ARG_PARAM_ITEM_ID)
-            val item = ItemContent.ITEMS_MAP[paramItemId]
-            Log.d(Consts.ARG_PARAM_ITEM_ID, item.toString())
-            itemData.postValue(item)
-        }
+        presenter.attach(this)
         return binding.root;
     }
 
-    private val observer: Observer<ItemContent.Item> = Observer{
-        binding.itemDescription.text = it.description
-        binding.itemName.text = it.name
-        binding.itemID.text = it.id.toString()
-
+    override fun onDestroy() {
+        presenter.detach()
+        super.onDestroy()
     }
-
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.lifecycleOwner = getViewLifecycleOwner();
-        itemData.observe(getViewLifecycleOwner(), observer)
+        presenter.requestItemById(itemId)
     }
 
     companion object {
@@ -53,5 +51,11 @@ class DetailedItemFragment : Fragment() {
                     putInt(Consts.ARG_PARAM_ITEM_ID, itemID)
                 }
             }
+    }
+
+    override fun showItem(item: Item) {
+        binding.itemDescription.text = item.description
+        binding.itemName.text = item.name
+        binding.itemID.text = item.id.toString()
     }
 }

@@ -9,6 +9,6 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context=".ItemsFragment"
+    tools:context=".ui.items.ItemsFragment"
     tools:itemCount="20"
     tools:listitem="@layout/fragment_item" />

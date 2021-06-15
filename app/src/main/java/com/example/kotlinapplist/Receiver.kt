@@ -2,9 +2,9 @@ package com.example.kotlinapplist
 
 import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.content.Intent
-import android.util.Log
+import com.example.kotlinapplist.data.Consts
+import com.example.kotlinapplist.ui.MainActivity
 
 class Receiver : BroadcastReceiver() {
 

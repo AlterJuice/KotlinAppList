@@ -1,6 +1,8 @@
-package com.example.kotlinapplist
+package com.example.kotlinapplist.data
 
 object Consts{
+    const val APP_PACKAGE = "com.example.kotlinapplist"
+    const val MAX_ITEMS_COUNT = 20
     const val ARG_PARAM_ITEM_ID = "itemID"
     const val PREFERENCE_FILE_NAME = "Test"
     const val preferenceKeyItemId = "itemID"
