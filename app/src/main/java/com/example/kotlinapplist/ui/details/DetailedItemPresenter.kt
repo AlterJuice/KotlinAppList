@@ -1,9 +1,13 @@
 package com.example.kotlinapplist.ui.details
 
+import com.example.kotlinapplist.repo.ItemRepository
 import com.example.kotlinapplist.utils.DiUtil
 
-class DetailedItemPresenter {
+class DetailedItemPresenter(
+    private val itemsRepository: ItemRepository
+) {
     private var view: DetailedItemFragmentView? = null
+
 
     fun attach(view: DetailedItemFragmentView) {
         this.view = view
@@ -14,7 +18,7 @@ class DetailedItemPresenter {
     }
 
     fun requestItemById(itemId: Int) {
-        DiUtil.itemsRepository.getItemById(itemId)?.also {
+        itemsRepository.getItemById(itemId)?.also {
             view?.showItem(it)
         }
     }

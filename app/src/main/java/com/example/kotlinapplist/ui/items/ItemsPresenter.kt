@@ -2,10 +2,11 @@ package com.example.kotlinapplist.ui.items
 
 import com.example.kotlinapplist.repo.ItemRepository
 import com.example.kotlinapplist.repo.PreferencesRepository
-import com.example.kotlinapplist.ui.MainActivity
-import com.example.kotlinapplist.utils.DiUtil
 
-class ItemsPresenter{
+class ItemsPresenter(
+    private val prefs: PreferencesRepository,
+    private val itemRepo: ItemRepository
+){
 
     private var view: ItemsFragmentView? = null
 
@@ -14,13 +15,13 @@ class ItemsPresenter{
     fun detach() { view = null }
 
     fun requestItems() {
-        with(DiUtil.itemsRepository.getItems(), {
+        with(itemRepo.getItems(), {
             view?.displayItems(this)
         })
     }
 
     fun saveItemId(itemID: Int) {
-        DiUtil.itemsPreferences.setLastItemId(itemID)
+        prefs.setLastItemId(itemID)
     }
 
 }

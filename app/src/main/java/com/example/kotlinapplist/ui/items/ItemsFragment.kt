@@ -16,12 +16,13 @@ import com.example.kotlinapplist.repo.implementation.ItemRepositoryImpl
 import com.example.kotlinapplist.repo.implementation.PreferencesRepositoryImpl
 import com.example.kotlinapplist.ui.MainActivity
 import com.example.kotlinapplist.ui.details.DetailedItemFragment
+import com.example.kotlinapplist.utils.DiUtil
 
 
 class ItemsFragment : Fragment(), ItemsFragmentView {
 
     private val presenter by lazy {
-        ItemsPresenter()
+        ItemsPresenter(DiUtil.itemsPreferences, DiUtil.itemsRepository)
     }
     private val adapter by lazy {
         ItemsRecyclerViewAdapter(listOf()) {

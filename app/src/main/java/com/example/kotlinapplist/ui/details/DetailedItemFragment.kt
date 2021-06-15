@@ -23,8 +23,7 @@ class DetailedItemFragment : Fragment(), DetailedItemFragmentView {
         arguments?.getInt(Consts.ARG_PARAM_ITEM_ID) ?: -1
     }
     private val presenter by lazy {
-        DetailedItemPresenter()
-        // DiUtil.itemsRepository
+        DetailedItemPresenter(DiUtil.itemsRepository)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
