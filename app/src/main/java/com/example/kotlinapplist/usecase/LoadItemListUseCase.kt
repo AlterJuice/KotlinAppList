@@ -13,15 +13,28 @@ class LoadItemListUseCase(
 ) : UseCase<ItemListAction, ItemListState> {
 
     override fun canHandle(action: ItemListAction): Boolean {
-        return action is ItemListAction.LoadItems || action is ItemListAction.SaveItemId
+        return action is ItemListAction.LoadItems ||
+                action is ItemListAction.SaveItemId ||
+                action is ItemListAction.RemoveItem ||
+                action is ItemListAction.ItemRemoved
     }
 
     override fun invoke(action: ItemListAction, state: ItemListState): ItemListAction {
         if (action is ItemListAction.LoadItems) {
             return ItemListAction.ItemsLoaded(repository.getItems())
         }else if (action is ItemListAction.SaveItemId){
-            preferences.setLastItemId(state.savedItemId)
-            return ItemListAction.ItemIdSaved(state.savedItemId)
+            preferences.setLastItemId(state.itemId)
+            return ItemListAction.ItemIdSaved(state.itemId)
+        }else if (action is ItemListAction.RemoveItem){
+            if (repository.getItems().size >= 1){
+                repository.removeItemById(state.itemId)
+                return ItemListAction.ItemRemoved(state.itemId)
+            }
+            return ItemListAction.ItemsAreEmpty
+        }else if (action is ItemListAction.ItemRemoved){
+            if (repository.getItems().size == 0){
+                return ItemListAction.ItemsAreEmpty
+            }
         }
         Log.d("LoadItemsUseCaseInvoke", "Another ItemListAction type got")
         return ItemListAction.None

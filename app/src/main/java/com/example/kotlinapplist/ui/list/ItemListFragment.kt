@@ -33,9 +33,7 @@ class ItemListFragment : Fragment() {
         }).get(ItemListViewModel::class.java)
     }
     private val adapter by lazy {
-        ItemsRecyclerViewAdapter(listOf()) {
-            singleClick(it)
-        }
+        ItemsRecyclerViewAdapter(listOf(), { singleClick(it) }, { longClick(it) })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -61,6 +59,12 @@ class ItemListFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance() = ItemListFragment()
+    }
+
+    private fun longClick(item: Item?): Boolean{
+        if (item != null)
+            model.removeItemById(item.id)
+        return false
     }
 
 

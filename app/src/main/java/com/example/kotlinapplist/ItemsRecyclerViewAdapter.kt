@@ -9,7 +9,8 @@ import com.example.kotlinapplist.databinding.FragmentItemBinding
 
 class ItemsRecyclerViewAdapter(
     private var values: List<Item>,
-    private val clickListener: (Item) -> Unit
+    private val clickListener: (Item) -> Unit,
+    private val longClickListener : (Item) -> Boolean
 ) : RecyclerView.Adapter<ItemsRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -24,7 +25,7 @@ class ItemsRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
-        holder.bind(item, clickListener)
+        holder.bind(item, clickListener, longClickListener)
     }
 
     override fun getItemCount(): Int = values.size
@@ -36,9 +37,12 @@ class ItemsRecyclerViewAdapter(
 
     inner class ViewHolder(private val binding: FragmentItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Item, onItemClick: (Item) -> Unit){
+        fun bind(item: Item, onItemClick: (Item) -> Unit, onLongItemClick: (Item) -> Boolean){
             binding.root.setOnClickListener {
                 onItemClick(item)
+            }
+            binding.root.setOnLongClickListener{
+                onLongItemClick(item)
             }
             binding.itemID.text = item.id.toString()
         }

@@ -14,6 +14,7 @@ class ItemReducer: Reducer<ItemAction, ItemState> {
             ItemAction.None -> state
             is ItemAction.LoadItem -> state
             is ItemAction.ItemLoaded -> state.copy(item = action.item)
+            ItemAction.ItemRemoved -> state.copy(item = null)
         }
     }
 }

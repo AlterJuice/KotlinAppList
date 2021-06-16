@@ -14,8 +14,11 @@ class ItemListReducer : Reducer<ItemListAction, ItemListState> {
             ItemListAction.None -> state
             ItemListAction.LoadItems -> state
             is ItemListAction.ItemsLoaded -> state.copy(items = action.items)
-            is ItemListAction.SaveItemId -> state.copy(savedItemId = action.itemId)
+            is ItemListAction.SaveItemId -> state.copy(itemId = action.itemId)
             is ItemListAction.ItemIdSaved -> state
+            is ItemListAction.ItemRemoved -> state
+            ItemListAction.ItemsAreEmpty -> state.copy(items = listOf())
+            is ItemListAction.RemoveItem -> state.copy(itemId = action.itemId)
         }
     }
 

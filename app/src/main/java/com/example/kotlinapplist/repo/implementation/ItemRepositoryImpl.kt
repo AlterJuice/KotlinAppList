@@ -28,6 +28,11 @@ class ItemRepositoryImpl: ItemRepository {
         itemsMap[item.id] = item
     }
 
+    override fun removeItemById(id: Int) {
+        items.remove(itemsMap.remove(id))
+
+    }
+
     private fun createItems(count: Int){
         for (i in 0..count){
             addItem(Item.createNewItem(i))

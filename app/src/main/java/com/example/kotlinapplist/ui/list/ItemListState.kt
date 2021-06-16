@@ -4,5 +4,5 @@ import com.example.kotlinapplist.data.Item
 
 data class ItemListState(
     val items: List<Item>,
-    val savedItemId: Int
+    val itemId: Int
 )
