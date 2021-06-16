@@ -6,6 +6,8 @@ import com.example.kotlinapplist.repo.ItemRepository
 import com.example.kotlinapplist.repo.PreferencesRepository
 import com.example.kotlinapplist.repo.implementation.ItemRepositoryImpl
 import com.example.kotlinapplist.repo.implementation.PreferencesRepositoryImpl
+import com.example.kotlinapplist.usecase.LoadItemListUseCase
+import com.example.kotlinapplist.usecase.LoadItemUseCase
 
 object DiUtil {
 
@@ -15,6 +17,12 @@ object DiUtil {
     }
     val itemsPreferences by lazy {
         createPreferencesRepository()
+    }
+    val loadItemListUseCase by lazy {
+        LoadItemListUseCase(itemsRepository, itemsPreferences)
+    }
+    val loadItemUseCase by lazy{
+        LoadItemUseCase(itemsRepository)
     }
 
     fun init(context: Context) {

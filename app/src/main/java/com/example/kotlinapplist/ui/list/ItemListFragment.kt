@@ -1,4 +1,4 @@
-package com.example.kotlinapplist.ui
+package com.example.kotlinapplist.ui.list
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,18 +6,31 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kotlinapplist.*
 import com.example.kotlinapplist.data.Consts
 import com.example.kotlinapplist.data.Item
+import com.example.kotlinapplist.ui.details.ItemFragment
+import com.example.kotlinapplist.ui.details.ItemState
+import com.example.kotlinapplist.utils.DiUtil
 import com.example.kotlinapplist.viewmodels.ItemListViewModel
 
 
 class ItemListFragment : Fragment() {
 
     private val model by lazy{
-        ViewModelProvider(this).get(ItemListViewModel::class.java)
+        ViewModelProvider(this, object : ViewModelProvider.Factory {
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return ItemListViewModel(
+                    useCases = setOf(
+                        DiUtil.loadItemListUseCase
+                    )
+                ) as T
+            }
+
+        }).get(ItemListViewModel::class.java)
     }
     private val adapter by lazy {
         ItemsRecyclerViewAdapter(listOf()) {
@@ -35,10 +48,14 @@ class ItemListFragment : Fragment() {
             view.layoutManager = LinearLayoutManager(context)
             view.adapter = adapter
         }
-        model.items.observe(viewLifecycleOwner, {
-            adapter.setItems(it)
+        model.state.observe(viewLifecycleOwner, {
+            handleState(it)
         })
         model.loadItems()
+    }
+
+    private fun handleState(newState: ItemListState) {
+        adapter.setItems(newState.items)
     }
 
     companion object {

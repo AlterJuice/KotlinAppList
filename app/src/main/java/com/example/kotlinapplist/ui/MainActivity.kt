@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import com.example.kotlinapplist.*
 import com.example.kotlinapplist.data.Consts
 import com.example.kotlinapplist.repo.implementation.PreferencesRepositoryImpl
+import com.example.kotlinapplist.ui.details.ItemFragment
+import com.example.kotlinapplist.ui.list.ItemListFragment
 import com.example.kotlinapplist.utils.DiUtil
 
 class MainActivity : AppCompatActivity() {
@@ -40,10 +42,5 @@ class MainActivity : AppCompatActivity() {
             .beginTransaction()
             .replace(R.id.fragment, fragment).
             commit()
-    }
-
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-        replaceFragment(ItemFragment.newInstance(prefs.getLastItemId()))
     }
 }
