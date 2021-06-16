@@ -7,8 +7,6 @@ import androidx.fragment.app.Fragment
 import com.example.kotlinapplist.*
 import com.example.kotlinapplist.data.Consts
 import com.example.kotlinapplist.repo.implementation.PreferencesRepositoryImpl
-import com.example.kotlinapplist.ui.details.DetailedItemFragment
-import com.example.kotlinapplist.ui.items.ItemsFragment
 import com.example.kotlinapplist.utils.DiUtil
 
 class MainActivity : AppCompatActivity() {
@@ -21,17 +19,17 @@ class MainActivity : AppCompatActivity() {
         prefs = PreferencesRepositoryImpl(applicationContext, Consts.PREFERENCE_FILE_NAME)
         val savedItemId = prefs.getLastItemId()
         if (savedItemId == -1)
-            replaceFragment(ItemsFragment.newInstance())
+            replaceFragment(ItemListFragment.newInstance())
         else {
-            replaceFragment(DetailedItemFragment.newInstance(savedItemId))
+            replaceFragment(ItemFragment.newInstance(savedItemId))
             prefs.clearLastItemId()
         }
         startService(Intent(this, ItemService::class.java))
     }
 
     override fun onBackPressed() {
-        if (supportFragmentManager.fragments.size == 1 && supportFragmentManager.fragments[0] is DetailedItemFragment){
-            replaceFragment(ItemsFragment.newInstance())
+        if (supportFragmentManager.fragments.size == 1 && supportFragmentManager.fragments[0] is ItemFragment){
+            replaceFragment(ItemListFragment.newInstance())
         }else {
             super.onBackPressed()
         }
@@ -46,6 +44,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        replaceFragment(DetailedItemFragment.newInstance(prefs.getLastItemId()))
+        replaceFragment(ItemFragment.newInstance(prefs.getLastItemId()))
     }
 }
