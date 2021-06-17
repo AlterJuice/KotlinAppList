@@ -23,11 +23,11 @@ class ItemListViewModel(
         action(ItemListAction.LoadItems)
     }
 
-    fun saveLastItemId(itemId: Int){
-        action(ItemListAction.SaveItemId(itemId))
-    }
-
     fun removeItemById(itemId: Int){
         action(ItemListAction.RemoveItem(itemId))
+    }
+
+    fun saveLastItemId(itemId: Int){
+        action(ItemListAction.SaveItemId(itemId))
     }
 }

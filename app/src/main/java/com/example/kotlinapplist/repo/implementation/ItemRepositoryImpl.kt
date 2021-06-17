@@ -10,12 +10,10 @@ class ItemRepositoryImpl: ItemRepository {
     private val itemsMap: MutableMap<Int, Item> = HashMap()
 
     init {
-        createItems(Consts.MAX_ITEMS_COUNT)
+        createItems()
     }
 
     override fun getItems(): List<Item> {
-        if (items.size == 0)
-            createItems(Consts.MAX_ITEMS_COUNT)
         return items
     }
 
@@ -33,8 +31,8 @@ class ItemRepositoryImpl: ItemRepository {
 
     }
 
-    private fun createItems(count: Int){
-        for (i in 0..count){
+    override fun createItems() {
+        for (i in 0..Consts.MAX_ITEMS_COUNT){
             addItem(Item.createNewItem(i))
         }
     }

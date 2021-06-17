@@ -44,7 +44,6 @@ class ItemFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         model.state.observe(viewLifecycleOwner, {
             showItem(it.item)
-            Log.d("ShowingItem", it.item.toString())
         })
         model.loadItem(itemId)
     }

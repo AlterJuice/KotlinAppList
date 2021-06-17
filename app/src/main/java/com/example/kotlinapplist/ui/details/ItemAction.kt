@@ -6,6 +6,5 @@ sealed class ItemAction {
     object None : ItemAction()
     data class LoadItem(val itemId: Int) : ItemAction()
     data class ItemLoaded(val item: Item?) : ItemAction()
-    object ItemRemoved: ItemAction()
 
 }

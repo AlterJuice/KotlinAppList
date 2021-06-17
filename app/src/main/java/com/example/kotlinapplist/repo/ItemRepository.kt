@@ -8,5 +8,6 @@ interface ItemRepository {
      fun getItemById(id: Int): Item?
      fun addItem(item: Item)
      fun removeItemById(id: Int)
+     fun createItems()
 
 }
